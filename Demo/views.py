@@ -41,11 +41,11 @@ def predict(request):
         except Exception as e:
             result = f' Exception occur {e}' 
             #print(result)
-        return render(request,'demo/transactions.html',{'result': result})
+        return render(request,'Demo/transactions.html',{'result': result})
             
     
         
-    return render(request,'demo/transactions.html')
+    return render(request,'Demo/transactions.html')
 def make_prediction(request):
     if request.method == "POST":
         pass 
