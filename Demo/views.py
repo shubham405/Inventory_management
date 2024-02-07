@@ -22,7 +22,7 @@ def predict(request):
             sEncoder  =pickle.load(shadesEncoder)
             shadesEncoder.close()
             shades_transformed = sEncoder.transform([shades])[0]
-            branchEncoder = open('NEW_Branch_Name_encoder.pkl', 'rb')  
+            branchEncoder = open('branch_code.pkl', 'rb')  
             bEncoder  =pickle.load(branchEncoder)
             branchEncoder.close()
             branchName_transformed = bEncoder.transform([branchName])[0]
