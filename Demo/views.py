@@ -19,21 +19,27 @@ def tables(request):
             # print(df.columns)
 
             df = df.dropna()
-            df["Branch"] = df["Branch"].str.split().apply(lambda x: x[2])
-            df["Branch"] = df["Branch"].apply(
-                lambda x: "PAINTS-(HO)" if x == "PAINTS" else x
-            )
+            # df["Branch"] = df["Branch"].str.split().apply(lambda x: x[2])
+            # df["Branch"] = df["Branch"].apply(
+            #     lambda x: "PAINTS-(HO)" if x == "PAINTS" else x
+            # )
             # print(df)
             df = df[["Item Group", "Shade", "Pack Size", "Branch"]]
+            file_path = 'test.xlsx'
+
+# Save the DataFrame to an Excel file
+            df.to_excel(file_path, index=False)
             temp = df.copy()
             results = makePrediction(temp)
             # print(results)
             # df = df.reset_index(drop=True)
             if len(results) == len(df):
                 # Assign values to the new column
-                df["Next_predction"] = [abs(int(item[0])) for item in results]
+                df["Predicted Quantity"] = [abs(int(item[0])) for item in results]
             else:
-                print("Length of data does not match the number of rows in the DataFrame.")
+                print(
+                    "Length of data does not match the number of rows in the DataFrame."
+                )
             print(df)
             final_result = df
             output = io.BytesIO()
@@ -63,8 +69,8 @@ def tables(request):
             response["Content-Disposition"] = "attachment; filename=final_result.xlsx"
             return response
         except Exception as e:
-             error_msg = "Some error occured"
-             return render(request, "Demo/tables.html",{'error_message':error_msg})
+            error_msg = "Some error occured"
+            return render(request, "Demo/tables.html", {"error_message": error_msg})
     return render(request, "Demo/tables.html")
 
 
