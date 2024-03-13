@@ -13,7 +13,7 @@
     <title>Inventory Tables</title>
 
     <!-- Custom fonts for this template -->
-    <link href="{static % 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -378,13 +378,20 @@
                         </div>
                         <div class="card-body">
                              <h2 class="text-center mt-4 mb-4">Enter Your Inventory Details in .xlsx file</h2>
-        <div class="card">
+    <form method="post" action="/tables" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" id  = "file" name="file" accept=".xlsx, .xls" size="10MB" required="true">
+    <button type="submit">Predict</button>
+</form>
+        {% comment %} <div class="card">
             <div class="card-header"><b>Select Excel File</b></div>
             <div class="card-body">
-                <input type="file" id="excel_file" />
-            </div>
+                <input type="file" id="excel_file" name = "excel_file" />
+            </div> {% endcomment %}
+            
         </div>
-        <div id="excel_data" class="mt-5"></div>
+        
+        <!--<div id="excel_data" class="mt-5"></div>-->
     </div>
                         </div>
                     </div>
@@ -437,7 +444,8 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{%static 'js/demo/table_render.js' %}"></script>
+    
+    {% comment %} <script src="{%static 'js/demo/table_render.js' %}"></script> {% endcomment %}
     <script src="{%static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
@@ -453,6 +461,31 @@
 
     <!-- Page level custom scripts -->
     <script src="{%static 'js/demo/datatables-demo.js' %}"></script>
+    <script>
+    window.onload = function() {
+            // Get the error message from the template context
+            var errorMessage = "{{ error_message }}";
+
+            // Display the error message as an alert
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+        };
+    var MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+ 
+$(document).ready(function() {
+    $('#file').change(function() {
+        fileSize = this.files[0].size;
+        if (fileSize > MAX_FILE_SIZE) {
+            this.setCustomValidity("File must not exceed 10 MB!");
+            this.reportValidity();
+        } else {
+            this.setCustomValidity("");
+        }
+    });
+});
+
+    </script>
 
 </body>
 
